@@ -4,9 +4,11 @@
 entries:
   - title: info
     entries:
-      - title: a (nearly) no-CSS, fast, minimalist Jekyll theme.
-      - title: github repo
-        url: https://github.com/riggraz/no-style-please
+      - title: Hey there! I'm a Senior Software Engineer
+      - title: with 6 years of experience
+      - title: with a Bachelor's degree in Computer Science
+      - title: github
+        url: https://github.com/joker666/
       - title: "used by <a href='https://riggraz.dev'>riggraz.dev</a> and <a href='https://github.com/riggraz/no-style-please/network/dependents'>many others</a>"
 
   - title: all posts
