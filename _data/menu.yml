@@ -7,10 +7,24 @@ entries:
       - title: Hey there! I'm a Senior Software Engineer
       - title: with 6 years of experience
       - title: with a Bachelor's degree in Computer Science
-      - title: github
-        url: https://github.com/joker666/
-      - title: "used by <a href='https://riggraz.dev'>riggraz.dev</a> and <a href='https://github.com/riggraz/no-style-please/network/dependents'>many others</a>"
+      - title: worked at 2 companies
+      - title: made a bunch of cool things
+      - title: reviewed codes of many peers
+      - title: hired and trained junior programmers
+      - title: like watching formula 1
 
+  - title: about
+    entries:
+      - title: work
+        url: work
+      - title: education
+        url: education
+
+  - title: projects
+    entries:
+      - title: "<a href='https://github.com/joker666/cogman' target='_blank'>Cogman</a> - simple, efficient background job worker"
+      - title: "<a href='https://github.com/Joker666/microservice-demo' target='_blank'>Microservice Demo</a> - A cloud-native project management microservice application. Services are built with various technologies e.g Go, NodeJS, Python, Ruby, MongoDB, MySQL, PostgreSQL"
+  
   - title: all posts
     post_list:
       limit: 5
@@ -18,23 +32,15 @@ entries:
       show_more_text: See archive...
       show_more_url: archive.html
 
-  - title: posts by category
-    post_list:
-      category: example2
-      show_more: true
-      show_more_text: See more posts...
-      show_more_url: example2-archive.html
-
-  - title: rss
-    url: feed.xml
-  
-  - title: another list
+  - title: social
     entries:
-      - title: with subitems
-        entries:
-          - title: with subsubitems
-          - title: example page
-            url: about
-  - title: PRO TIP
-    entries:
-      - title: to edit this menu, edit _data/menu.yml file
+      - title: email
+        url: mailto:hasan.rafi@icloud.com
+      - title: twitter
+        url: https://twitter.com/hasantalks
+      - title: linked in
+        url: https://www.linkedin.com/in/hasanrafi/
+      - title: stackoverflow
+        url: https://stackoverflow.com/users/2314765/h-r
+      - title: github
+        url: https://github.com/joker666

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About
+title: Education
 ---
 
 This is an example page!
