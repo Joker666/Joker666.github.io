@@ -3,6 +3,8 @@ layout: page
 title: Education
 ---
 
-This is an example page!
-
-It's very similar to a `post` layout, with the only difference that the publish date is not shown!
+**Bachelor of Science** <br />
+Computer Science <br />
+GPA 3.3/4.0 <br />
+[North South University](http://www.northsouth.edu/) <br />
+Spring 2012 - Summer 2015
