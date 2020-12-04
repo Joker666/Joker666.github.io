@@ -26,10 +26,11 @@ entries:
       - title: "<a href='https://github.com/Joker666/microservice-demo' target='_blank'>Microservice Demo</a> - A cloud-native project management microservice application. Services are built with various technologies e.g Go, NodeJS, Python, Ruby, MongoDB, MySQL, PostgreSQL"
   
   - title: all posts
-    entries:
-      - title: "The Complete Microservice Tutorial — Part 1 Building User Service With GRPC, Node.JS, and MongoDB. <a href='https://medium.com/swlh/the-complete-microservice-tutorial-part-1-building-user-service-with-grpc-node-js-and-mongodb-73e70ed80148' target='_blank'>Link</a>"
-      - title: "The 4 Types of Memory Leaks in Node.JS and how to avoid them (with the help of Clinic.JS)— Part 1 <a href='https://hasantalks.medium.com/the-4-types-of-memory-leaks-in-node-js-and-how-to-avoid-them-with-the-help-of-clinic-js-part-1-3f0c0afda268' target='_blank'>Link</a>"
-      - title: "The Complete Microservice Tutorial with GRPC, NodeJS, Go, Python & Ruby — Part 0 Introduction <a href='https://hasantalks.medium.com/the-complete-microservice-tutorial-with-grpc-nodejs-go-python-ruby-part-0-introduction-b491d95b40a9' target='_blank'>Link</a>"
+    post_list:
+      limit: 5
+      show_more: true
+      show_more_text: See archive...
+      show_more_url: archive.html
 
   - title: social
     entries:
