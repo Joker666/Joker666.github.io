@@ -5,7 +5,7 @@ category: example
 
 ![logo](https://hackernoon.com/images/3Ur17PtJhkV5UkAAJFu6z8t0fKg1-cz631ep.jpeg)
 
-**Project Link: https://github.com/Joker666/goworkerpool**
+**Project Link: [https://github.com/Joker666/goworkerpool](https://github.com/Joker666/goworkerpool)**
 
 [Concurrency in Golang and WorkerPool: [Part 1\]](https://joker666.github.io/golang-concurrency-workerpool-part-1.html)
 
