@@ -4,6 +4,7 @@ title: "Golang Concurrency And Workerpool: Part 2"
 category: golang
 description: Concurrency limiting worker pool. We deep dive into building a robust worker pool.
 image: https://hackernoon.com/images/3Ur17PtJhkV5UkAAJFu6z8t0fKg1-cz631ep.jpeg
+keywords:
   - golang
   - concurrency
   - workerpool

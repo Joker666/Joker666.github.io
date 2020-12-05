@@ -8,7 +8,7 @@ description: > # description of the site (multiple lines allowed)
   software engineering, devops stuff
 twitter:
   username: hasantalks
-  card: summary
+  card: summary_large_image
 
 permalink: /:slug.html
 
