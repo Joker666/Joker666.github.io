@@ -36,5 +36,4 @@ highlighter: rouge
 kramdown:
   input: GFM
 
-google_analytics: G-KV1QTCBTMM
-google_tag: GTM-PHSJGVS
+google_analytics: UA-184812455-1
