@@ -1,9 +1,14 @@
-title: MD Ahad Hasan # name of the site
+title: Hasan's Blog # name of the site
 author: MD Ahad Hasan # name of site's author
 email: hasan.rafi@icloud.com # email of site's author
 url: https://joker666.github.io # root address of the site
+tagline: Personal site with blogs in software engineering and devops
 description: > # description of the site (multiple lines allowed)
-  Personal site
+  Personal site where you get my social and work information. I also write about golang,
+  software engineering, devops stuff
+twitter:
+  username: hasantalks
+  card: summary
 
 permalink: /:slug.html
 
