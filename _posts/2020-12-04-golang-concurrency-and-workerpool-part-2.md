@@ -7,7 +7,7 @@ category: example
 
 **Project Link: [https://github.com/Joker666/goworkerpool](https://github.com/Joker666/goworkerpool)**
 
-[Concurrency in Golang and WorkerPool: [Part 1\]](https://joker666.github.io/golang-concurrency-workerpool-part-1.html)
+[Concurrency in Golang and WorkerPool: [Part 1\]](https://joker666.github.io/golang-concurrency-and-workerpool-part-1.html)
 
 Goroutines and channels are powerful language structs that make golang a powerful concurrent language. In the first part of the article, we explored, how we can build a workerpool to optimize the performance of the concurrency structs of golang namely limiting the resource utilization. But it was a simple example to demonstrate how we can go about it.
 
