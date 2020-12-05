@@ -1,4 +1,4 @@
----
+highlighting---
 layout: post
 category: example
 ---
@@ -36,22 +36,22 @@ Let's code out `Task` first.
 package workerpool
 
 import (
-	"fmt"
+    "fmt"
 )
 
 type Task struct {
-	Err  error
-	Data interface{}
-	f    func(interface{}) error
+    Err  error
+    Data interface{}
+    f    func(interface{}) error
 }
 
 func NewTask(f func(interface{}) error, data interface{}) *Task {
-	return &Task{f: f, Data: data}
+    return &Task{f: f, Data: data}
 }
 
 func process(workerID int, task *Task) {
-	fmt.Printf("Worker %d processes task %v\n", workerID, task.Data)
-	task.Err = task.f(task.Data)
+    fmt.Printf("Worker %d processes task %v\n", workerID, task.Data)
+    task.Err = task.f(task.Data)
 }
 ```
 
@@ -63,35 +63,35 @@ func process(workerID int, task *Task) {
 package workerpool
 
 import (
-	"fmt"
-	"sync"
+    "fmt"
+    "sync"
 )
 
 // Worker handles all the work
 type Worker struct {
-	ID       int
-	taskChan chan *Task
+    ID       int
+    taskChan chan *Task
 }
 
 // NewWorker returns new instance of worker
 func NewWorker(channel chan *Task, ID int) *Worker {
-	return &Worker{
-		ID:       ID,
-		taskChan: channel,
-	}
+    return &Worker{
+        ID:       ID,
+        taskChan: channel,
+    }
 }
 
 // Start starts the worker
 func (wr *Worker) Start(wg *sync.WaitGroup) {
-	fmt.Printf("Starting worker %d\n", wr.ID)
+    fmt.Printf("Starting worker %d\n", wr.ID)
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		for task := range wr.taskChan {
-			process(wr.ID, task)
-		}
-	}()
+    wg.Add(1)
+    go func() {
+        defer wg.Done()
+        for task := range wr.taskChan {
+            process(wr.ID, task)
+        }
+    }()
 }
 ```
 
@@ -107,44 +107,44 @@ We have implemented the `Task` and `Worker` to handle tasks but there's a missin
 package workerpool
 
 import (
-	"fmt"
-	"sync"
-	"time"
+    "fmt"
+    "sync"
+    "time"
 )
 
 // Pool is the worker pool
 type Pool struct {
-	Tasks   []*Task
+    Tasks   []*Task
 
-	concurrency   int
-	collector     chan *Task
-	wg            sync.WaitGroup
+    concurrency   int
+    collector     chan *Task
+    wg            sync.WaitGroup
 }
 
 // NewPool initializes a new pool with the given tasks and
 // at the given concurrency.
 func NewPool(tasks []*Task, concurrency int) *Pool {
-	return &Pool{
-		Tasks:       tasks,
-		concurrency: concurrency,
-		collector:   make(chan *Task, 1000),
-	}
+    return &Pool{
+        Tasks:       tasks,
+        concurrency: concurrency,
+        collector:   make(chan *Task, 1000),
+    }
 }
 
 // Run runs all work within the pool and blocks until it's
 // finished.
 func (p *Pool) Run() {
-	for i := 1; i <= p.concurrency; i++ {
-		worker := NewWorker(p.collector, i)
-		worker.Start(&p.wg)
-	}
+    for i := 1; i <= p.concurrency; i++ {
+        worker := NewWorker(p.collector, i)
+        worker.Start(&p.wg)
+    }
 
-	for i := range p.Tasks {
-		p.collector <- p.Tasks[i]
-	}
-	close(p.collector)
+    for i := range p.Tasks {
+        p.collector <- p.Tasks[i]
+    }
+    close(p.collector)
 
-	p.wg.Wait()
+    p.wg.Wait()
 }
 ```
 
@@ -158,26 +158,26 @@ So, when we run this worker pool, we spawn the desired number of workers that ta
 package main
 
 import (
-	"fmt"
-	"time"
+    "fmt"
+    "time"
 
-	"github.com/Joker666/goworkerpool/workerpool"
+    "github.com/Joker666/goworkerpool/workerpool"
 )
 
 func main() {
-	var allTask []*workerpool.Task
-	for i := 1; i <= 100; i++ {
-		task := workerpool.NewTask(func(data interface{}) error {
-			taskID := data.(int)
-			time.Sleep(100 * time.Millisecond)
-			fmt.Printf("Task %d processed\n", taskID)
-			return nil
-		}, i)
-		allTask = append(allTask, task)
-	}
+    var allTask []*workerpool.Task
+    for i := 1; i <= 100; i++ {
+        task := workerpool.NewTask(func(data interface{}) error {
+            taskID := data.(int)
+            time.Sleep(100 * time.Millisecond)
+            fmt.Printf("Task %d processed\n", taskID)
+            return nil
+        }, i)
+        allTask = append(allTask, task)
+    }
 
-	pool := workerpool.NewPool(allTask, 5)
-	pool.Run()
+    pool := workerpool.NewPool(allTask, 5)
+    pool.Run()
 }
 ```
 
@@ -207,42 +207,42 @@ We can actually extend our solution further, so that, the workers keep waiting f
 
 // Worker handles all the work
 type Worker struct {
-	ID       int
-	taskChan chan *Task
-	quit     chan bool
+    ID       int
+    taskChan chan *Task
+    quit     chan bool
 }
 
 // NewWorker returns new instance of worker
 func NewWorker(channel chan *Task, ID int) *Worker {
-	return &Worker{
-		ID:       ID,
-		taskChan: channel,
-		quit:     make(chan bool),
-	}
+    return &Worker{
+        ID:       ID,
+        taskChan: channel,
+        quit:     make(chan bool),
+    }
 }
 
 ....
 
 // StartBackground starts the worker in background waiting
 func (wr *Worker) StartBackground() {
-	fmt.Printf("Starting worker %d\n", wr.ID)
+    fmt.Printf("Starting worker %d\n", wr.ID)
 
-	for {
-		select {
-		case task := <-wr.taskChan:
-			process(wr.ID, task)
-		case <-wr.quit:
-			return
-		}
-	}
+    for {
+        select {
+        case task := <-wr.taskChan:
+            process(wr.ID, task)
+        case <-wr.quit:
+            return
+        }
+    }
 }
 
 // Stop quits the worker
 func (wr *Worker) Stop() {
-	fmt.Printf("Closing worker %d\n", wr.ID)
-	go func() {
-		wr.quit <- true
-	}()
+    fmt.Printf("Closing worker %d\n", wr.ID)
+    go func() {
+        wr.quit <- true
+    }()
 }
 ```
 
@@ -254,49 +254,49 @@ Armed with these two new methods let's add some new things to `Pool`.
 // workerpool/pool.go
 
 type Pool struct {
-	Tasks   []*Task
-	Workers []*Worker
+    Tasks   []*Task
+    Workers []*Worker
 
-	concurrency   int
-	collector     chan *Task
-	runBackground chan bool
-	wg            sync.WaitGroup
+    concurrency   int
+    collector     chan *Task
+    runBackground chan bool
+    wg            sync.WaitGroup
 }
 
 // AddTask adds a task to the pool
 func (p *Pool) AddTask(task *Task) {
-	p.collector <- task
+    p.collector <- task
 }
 
 // RunBackground runs the pool in background
 func (p *Pool) RunBackground() {
-	go func() {
-		for {
-			fmt.Print("⌛ Waiting for tasks to come in ...\n")
-			time.Sleep(10 * time.Second)
-		}
-	}()
+    go func() {
+        for {
+            fmt.Print("⌛ Waiting for tasks to come in ...\n")
+            time.Sleep(10 * time.Second)
+        }
+    }()
 
-	for i := 1; i <= p.concurrency; i++ {
-		worker := NewWorker(p.collector, i)
-		p.Workers = append(p.Workers, worker)
-		go worker.StartBackground()
-	}
+    for i := 1; i <= p.concurrency; i++ {
+        worker := NewWorker(p.collector, i)
+        p.Workers = append(p.Workers, worker)
+        go worker.StartBackground()
+    }
 
-	for i := range p.Tasks {
-		p.collector <- p.Tasks[i]
-	}
+    for i := range p.Tasks {
+        p.collector <- p.Tasks[i]
+    }
 
-	p.runBackground = make(chan bool)
-	<-p.runBackground
+    p.runBackground = make(chan bool)
+    <-p.runBackground
 }
 
 // Stop stops background workers
 func (p *Pool) Stop() {
-	for i := range p.Workers {
-		p.Workers[i].Stop()
-	}
-	p.runBackground <- true
+    for i := range p.Workers {
+        p.Workers[i].Stop()
+    }
+    p.runBackground <- true
 }
 ```
 
@@ -313,22 +313,22 @@ If we had a real world scenario, this would be running alongside a HTTP server a
 
 pool := workerpool.NewPool(allTask, 5)
 go func() {
-	for {
-		taskID := rand.Intn(100) + 20
+    for {
+        taskID := rand.Intn(100) + 20
 
-		if taskID%7 == 0 {
-			pool.Stop()
-		}
+        if taskID%7 == 0 {
+            pool.Stop()
+        }
 
-		time.Sleep(time.Duration(rand.Intn(5)) * time.Second)
-		task := workerpool.NewTask(func(data interface{}) error {
-			taskID := data.(int)
-			time.Sleep(100 * time.Millisecond)
-			fmt.Printf("Task %d processed\n", taskID)
-			return nil
-		}, taskID)
-		pool.AddTask(task)
-	}
+        time.Sleep(time.Duration(rand.Intn(5)) * time.Second)
+        task := workerpool.NewTask(func(data interface{}) error {
+            taskID := data.(int)
+            time.Sleep(100 * time.Millisecond)
+            fmt.Printf("Task %d processed\n", taskID)
+            return nil
+        }, taskID)
+        pool.AddTask(task)
+    }
 }()
 pool.RunBackground()
 ```

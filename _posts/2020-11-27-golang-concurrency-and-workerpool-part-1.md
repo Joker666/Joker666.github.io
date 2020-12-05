@@ -23,7 +23,7 @@ Let's imagine we have an external API call which takes about 100ms to get done. 
 package model
 
 type SimpleData struct {
-	ID int
+    ID int
 }
 
 //// basic/basic.go
@@ -31,24 +31,24 @@ type SimpleData struct {
 package basic
 
 import (
-	"fmt"
-	"github.com/Joker666/goworkerpool/model"
-	"time"
+    "fmt"
+    "github.com/Joker666/goworkerpool/model"
+    "time"
 )
 
 func Work(allData []model.SimpleData) {
-	start := time.Now()
-	for i, _ := range allData {
-		Process(allData[i])
-	}
-	elapsed := time.Since(start)
-	fmt.Printf("Took ===============> %s\n", elapsed)
+    start := time.Now()
+    for i, _ := range allData {
+    	Process(allData[i])
+    }
+    elapsed := time.Since(start)
+    fmt.Printf("Took ===============> %s\n", elapsed)
 }
 
 func Process(data model.SimpleData) {
-	fmt.Printf("Start processing %d\n", data.ID)
-	time.Sleep(100 * time.Millisecond)
-	fmt.Printf("Finish processing %d\n", data.ID)
+    fmt.Printf("Start processing %d\n", data.ID)
+    time.Sleep(100 * time.Millisecond)
+    fmt.Printf("Finish processing %d\n", data.ID)
 }
 
 //// main.go
@@ -56,23 +56,23 @@ func Process(data model.SimpleData) {
 package main
 
 import (
-	"fmt"
-	"github.com/Joker666/goworkerpool/basic"
-	"github.com/Joker666/goworkerpool/model"
-	"github.com/Joker666/goworkerpool/worker"
+    "fmt"
+    "github.com/Joker666/goworkerpool/basic"
+    "github.com/Joker666/goworkerpool/model"
+    "github.com/Joker666/goworkerpool/worker"
 )
 
 func main() {
-	// Prepare the data
-	var allData []model.SimpleData
-	for i := 0; i < 1000; i++ {
-		data := model.SimpleData{ ID: i }
-		allData = append(allData, data)
-	}
-	fmt.Printf("Start processing all work \n")
+    // Prepare the data
+    var allData []model.SimpleData
+    for i := 0; i < 1000; i++ {
+    	data := model.SimpleData{ ID: i }
+    	allData = append(allData, data)
+    }
+    fmt.Printf("Start processing all work \n")
 
-	// Process
-	basic.Work(allData)
+    // Process
+    basic.Work(allData)
 }
 ```
 
@@ -89,31 +89,31 @@ Here, we have a simple model that holds a data struct with just an integer value
 //// worker/notPooled.go
 
 func NotPooledWork(allData []model.SimpleData) {
-	start := time.Now()
-	var wg sync.WaitGroup
+    start := time.Now()
+    var wg sync.WaitGroup
 
-	dataCh := make(chan model.SimpleData, 100)
+    dataCh := make(chan model.SimpleData, 100)
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		for data := range dataCh {
-			wg.Add(1)
-			go func(data model.SimpleData) {
-				defer wg.Done()
-				basic.Process(data)
-			}(data)
-		}
-	}()
+    wg.Add(1)
+    go func() {
+    	defer wg.Done()
+    	for data := range dataCh {
+            wg.Add(1)
+            go func(data model.SimpleData) {
+                defer wg.Done()
+                basic.Process(data)
+            }(data)
+        }
+    }()
 
-	for i, _ := range allData {
-		dataCh <- allData[i]
-	}
+    for i, _ := range allData {
+        dataCh <- allData[i]
+    }
 
-	close(dataCh)
-	wg.Wait()
-	elapsed := time.Since(start)
-	fmt.Printf("Took ===============> %s\n", elapsed)
+    close(dataCh)
+    wg.Wait()
+    elapsed := time.Since(start)
+    fmt.Printf("Took ===============> %s\n", elapsed)
 }
 
 //// main.go
@@ -143,31 +143,31 @@ Let's fix the earlier problem with worker pool implementation
 //// worker/pooled.go
 
 func PooledWork(allData []model.SimpleData) {
-	start := time.Now()
-	var wg sync.WaitGroup
-	workerPoolSize := 100
+    start := time.Now()
+    var wg sync.WaitGroup
+    workerPoolSize := 100
 
-	dataCh := make(chan model.SimpleData, workerPoolSize)
+    dataCh := make(chan model.SimpleData, workerPoolSize)
 
-	for i := 0; i < workerPoolSize; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+    for i := 0; i < workerPoolSize; i++ {
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
 
-			for data := range dataCh {
-				basic.Process(data)
-			}
-		}()
-	}
+            for data := range dataCh {
+                basic.Process(data)
+            }
+        }()
+    }
 
-	for i, _ := range allData {
-		dataCh <- allData[i]
-	}
+    for i, _ := range allData {
+        dataCh <- allData[i]
+    }
 
-	close(dataCh)
-	wg.Wait()
-	elapsed := time.Since(start)
-	fmt.Printf("Took ===============> %s\n", elapsed)
+    close(dataCh)
+    wg.Wait()
+    elapsed := time.Since(start)
+    fmt.Printf("Took ===============> %s\n", elapsed)
 }
 
 //// main.go
@@ -195,58 +195,58 @@ We are not quite done yet. This looks like a complete solution except it isn't. 
 //// worker/pooledError.go
 
 func PooledWorkError(allData []model.SimpleData) {
-	start := time.Now()
-	var wg sync.WaitGroup
-	workerPoolSize := 100
+    start := time.Now()
+    var wg sync.WaitGroup
+    workerPoolSize := 100
 
-	dataCh := make(chan model.SimpleData, workerPoolSize)
-	errors := make(chan error, 1000)
+    dataCh := make(chan model.SimpleData, workerPoolSize)
+    errors := make(chan error, 1000)
 
-	for i := 0; i < workerPoolSize; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+    for i := 0; i < workerPoolSize; i++ {
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
 
-			for data := range dataCh {
-				process(data, errors)
-			}
-		}()
-	}
+            for data := range dataCh {
+                process(data, errors)
+            }
+        }()
+    }
 
-	for i, _ := range allData {
-		dataCh <- allData[i]
-	}
+    for i, _ := range allData {
+        dataCh <- allData[i]
+    }
 
-	close(dataCh)
+    close(dataCh)
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case err := <-errors:
-				fmt.Println("finished with error:", err.Error())
-			case <-time.After(time.Second * 1):
-				fmt.Println("Timeout: errors finished")
-				return
-			}
-		}
-	}()
+    wg.Add(1)
+    go func() {
+        defer wg.Done()
+        for {
+            select {
+            case err := <-errors:
+                fmt.Println("finished with error:", err.Error())
+            case <-time.After(time.Second * 1):
+                fmt.Println("Timeout: errors finished")
+                return
+            }
+        }
+    }()
 
-	defer close(errors)
-	wg.Wait()
-	elapsed := time.Since(start)
-	fmt.Printf("Took ===============> %s\n", elapsed)
+    defer close(errors)
+    wg.Wait()
+    elapsed := time.Since(start)
+    fmt.Printf("Took ===============> %s\n", elapsed)
 }
 
 func process(data model.SimpleData, errors chan<- error) {
-	fmt.Printf("Start processing %d\n", data.ID)
-	time.Sleep(100 * time.Millisecond)
-	if data.ID % 29 == 0 {
-		errors <- fmt.Errorf("error on job %v", data.ID)
-	} else {
-		fmt.Printf("Finish processing %d\n", data.ID)
-	}
+    fmt.Printf("Start processing %d\n", data.ID)
+    time.Sleep(100 * time.Millisecond)
+    if data.ID % 29 == 0 {
+        errors <- fmt.Errorf("error on job %v", data.ID)
+    } else {
+        fmt.Printf("Finish processing %d\n", data.ID)
+    }
 }
 
 //// main.go
