@@ -7,6 +7,10 @@
   <meta name="keywords" content="{{ page.keywords | join: ', ' | escape }}">
   {% endif %}
 
+  {% if site.google_analytics and jekyll.environment == 'production' %}
+  {% include analytics.html %}
+  {% endif %}
+
   <title>
     {%- if page.title -%}
       {{ page.title }}
