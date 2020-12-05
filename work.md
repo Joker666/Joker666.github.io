@@ -8,7 +8,7 @@ Email me for Resume - [hasan.rafi@icloud.com](mailto:hasan.rafi@icloud.com)
 ### [KickBack Apps](https://kickbackapps.com)
 **Chief Technology Officer** <br />
 Built an efficient Team <br />
-Sep 2018 - oct 2020
+Sep 2018 - Oct 2020
 
 **Full Stack Engineer** <br />
 Programmed an app <br />
